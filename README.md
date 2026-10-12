@@ -28,3 +28,23 @@ python3 -m venv .venv
 Browser checks cover all 78,750 cell/frame positions, slider, playback, four color modes, search, filtering, trajectory selection, and zoom/reset. Desktop and narrow layouts were visually inspected. The browser test tool blocks file URLs, so direct-file opening was not tested; the page uses only embedded resources and was tested through a local HTTP server.
 
 RNA coloring uses the natural logarithm of positive RNA UMI counts (1,452–150,445), with a fixed purple–teal–yellow scale. Counts are verified identical for each cell across all five frames. The page uses a light ivory background with darker annotation colors for contrast.
+
+## Figure 4h — RNA ↔ ATAC
+
+Open `figure4h.html` for the separate modality visualization. It is a self-contained HTML file; the context-length page remains `index.html`.
+
+Rebuild with:
+
+```sh
+.venv/bin/python build_figure4h.py
+```
+
+The builder reuses `src/template.html` for the light layout, categorical palettes, canvas rendering, filtering, cell inspection, and playback controls. Figure-specific count logic lives in `src/modality-colors.js`. Guarded template substitutions detect incompatible changes. The Figure 4h builder never writes the original template or `index.html`.
+
+- 15,750 unique cells are paired by `cell_id` between `RNA (genes)` and `ATAC (peaks)`. Duplicate IDs, missing pairs, annotation changes, invalid coordinates, and nonpositive counts fail the build.
+- The original coordinates are retained on one fixed scale, with smoothstep interpolation from RNA to ATAC and back (12 seconds each way at 1×). Intermediate positions are visual blends, not measured embeddings.
+- Color modes: `AIT33_class`, `AIT33_subclass`, modality, and UMI counts. UMI coloring offers raw counts (default) and natural-log counts, with a fixed scale spanning both modalities (664–203,786 raw UMIs).
+- RNA endpoint counts come from the RNA rows' `rna_umi_counts`; ATAC endpoint counts come from the ATAC rows' `atac_umi_counts`. Between endpoints, values interpolate on the selected raw/log scale with the same easing as coordinates. These intermediate values are for coloring only; cell details always report both original endpoint counts.
+- Some subclass labels have cells assigned to different classes in the supplied metadata. Subclass palettes and legend groups use the most frequent parent class, while class coloring and cell details preserve every recorded per-cell class.
+
+Validated in-browser: all 31,500 endpoint positions and raw/log endpoint counts match the embedded data; all four color modes, slider endpoints, playback/pause, annotation search/filtering, cell trajectories, and zoom/reset work. Desktop and mobile layouts were inspected with no console errors. `index.html`, `src/template.html`, and `build.py` remain byte-for-byte identical to the Git baseline.
