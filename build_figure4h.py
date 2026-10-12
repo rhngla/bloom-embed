@@ -1,6 +1,6 @@
 """Build Figure 4h by reusing the original page's layout, palette and interactions.
 
-Never writes index.html or src/template.html. Guarded substitutions fail if the
+Never writes figure2e.html or src/template.html. Guarded substitutions fail if the
 shared template changes unexpectedly, rather than silently producing a bad page.
 """
 from collections import Counter, defaultdict
@@ -58,7 +58,6 @@ def replace_function(name, replacement):
 
 replace('Subclass shades progress in numerical order within their parent class.', 'Subclass shades follow numerical order within the most common parent class. Recorded per-cell class labels are preserved.')
 replace('Context in motion', 'Modalities in motion', 2)
-replace('One cell. Five perspectives.', 'One cell. Two modalities.')
 replace('<strong>5</strong><span>Context lengths</span>', '<strong>2</strong><span>Modalities</span>')
 replace('500 ctxlen · observed embedding', 'RNA · observed embedding')
 replace('<span id="ctx">500</span><small>context length</small>', '<span id="ctx">RNA</span><small>modality blend</small>')

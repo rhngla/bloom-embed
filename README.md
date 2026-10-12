@@ -1,6 +1,6 @@
 # Bloom — Context in motion
 
-Open `index.html` directly in a modern browser. The 2 MB page contains all data, styles, and scripts, with no external dependencies or network requests.
+Open `figure2e.html` directly in a modern browser. The 2 MB page contains all data, styles, and scripts, with no external dependencies or network requests.
 
 - Autoplay moves back and forth between 500 and 8,000 context length (24 seconds each way at 1×).
 - Drag the slider or click a measured context setting. Choose 0.5×, 1×, or 2× playback.
@@ -31,7 +31,7 @@ RNA coloring uses the natural logarithm of positive RNA UMI counts (1,452–150,
 
 ## Figure 4h — RNA ↔ ATAC
 
-Open `figure4h.html` for the separate modality visualization. It is a self-contained HTML file; the context-length page remains `index.html`.
+Open `figure4h.html` for the separate modality visualization. It is a self-contained HTML file; the context-length page remains `figure2e.html`.
 
 Rebuild with:
 
@@ -39,7 +39,7 @@ Rebuild with:
 .venv/bin/python build_figure4h.py
 ```
 
-The builder reuses `src/template.html` for the light layout, categorical palettes, canvas rendering, filtering, cell inspection, and playback controls. Figure-specific count logic lives in `src/modality-colors.js`. Guarded template substitutions detect incompatible changes. The Figure 4h builder never writes the original template or `index.html`.
+The builder reuses `src/template.html` for the light layout, categorical palettes, canvas rendering, filtering, cell inspection, and playback controls. Figure-specific count logic lives in `src/modality-colors.js`. Guarded template substitutions detect incompatible changes. The Figure 4h builder never writes the original template or `figure2e.html`.
 
 - 15,750 unique cells are paired by `cell_id` between `RNA (genes)` and `ATAC (peaks)`. Duplicate IDs, missing pairs, annotation changes, invalid coordinates, and nonpositive counts fail the build.
 - The original coordinates are retained on one fixed scale, with smoothstep interpolation from RNA to ATAC and back (12 seconds each way at 1×). Intermediate positions are visual blends, not measured embeddings.
@@ -47,4 +47,14 @@ The builder reuses `src/template.html` for the light layout, categorical palette
 - RNA endpoint counts come from the RNA rows' `rna_umi_counts`; ATAC endpoint counts come from the ATAC rows' `atac_umi_counts`. Between endpoints, values interpolate on the selected raw/log scale with the same easing as coordinates. These intermediate values are for coloring only; cell details always report both original endpoint counts.
 - Some subclass labels have cells assigned to different classes in the supplied metadata. Subclass palettes and legend groups use the most frequent parent class, while class coloring and cell details preserve every recorded per-cell class.
 
-Validated in-browser: all 31,500 endpoint positions and raw/log endpoint counts match the embedded data; all four color modes, slider endpoints, playback/pause, annotation search/filtering, cell trajectories, and zoom/reset work. Desktop and mobile layouts were inspected with no console errors. `index.html`, `src/template.html`, and `build.py` remain byte-for-byte identical to the Git baseline.
+Validated in-browser: all 31,500 endpoint positions and raw/log endpoint counts match the embedded data; all four color modes, slider endpoints, playback/pause, annotation search/filtering, cell trajectories, and zoom/reset work. Desktop and mobile layouts were inspected with no console errors. The original context-length visualization is retained as `figure2e.html`.
+
+## GitHub Pages
+
+The `.github/workflows/pages.yml` workflow publishes the two self-contained HTML pages on every push to `main`. It uploads only the generated pages and a small landing page, not the parquet inputs or build environment.
+
+- Landing page: https://rhngla.github.io/bloom-embed/
+- Figure 2e: https://rhngla.github.io/bloom-embed/figure2e.html
+- Figure 4h: https://rhngla.github.io/bloom-embed/figure4h.html
+
+After editing the shared template, run both builders and commit their generated HTML outputs. The landing page source is `src/landing.html`.

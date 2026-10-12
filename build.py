@@ -20,5 +20,5 @@ coords=np.array([[[groups[f][i]['umap_1'],groups[f][i]['umap_2']] for i in ids] 
 assert np.isfinite(coords).all()
 data={'frames':frames,'classes':classes,'subclasses':subs,'parents':[classes.index(next(r['AIT33_class'] for r in rows if r['AIT33_subclass']==s)) for s in subs], 'cells':[[i,classes.index(base[i]['AIT33_class']),subs.index(base[i]['AIT33_subclass']),base[i]['roi'],base[i]['donor_name'],base[i]['rna_umi_counts']] for i in ids], 'coords':base64.b64encode(coords.tobytes()).decode(), 'bounds':[float(coords[:,:,0].min()),float(coords[:,:,0].max()),float(coords[:,:,1].min()),float(coords[:,:,1].max())]}
 template=Path('src/template.html').read_text()
-Path('index.html').write_text(template.replace('__DATA__',json.dumps(data,separators=(',',':')).replace('</','<\\/')))
-print(f'Built index.html: {Path("index.html").stat().st_size/1e6:.2f} MB; {len(ids):,} cells × {len(frames)} frames')
+Path('figure2e.html').write_text(template.replace('__DATA__',json.dumps(data,separators=(',',':')).replace('</','<\\/')))
+print(f'Built figure2e.html: {Path("figure2e.html").stat().st_size/1e6:.2f} MB; {len(ids):,} cells × {len(frames)} frames')
