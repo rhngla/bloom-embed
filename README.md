@@ -58,6 +58,7 @@ Validated in-browser: all 31,500 endpoint positions and raw/log endpoint counts 
 - Autoplay runs once from 500 to 8,000 and stops (6 s per doubling at 1×; 1× or 2×). Pressing play at 8,000 restarts from 500. The arrow keys step between measured contexts.
 - The bottom bar shows the context readout (a measured value, or `500 → 1,000` while interpolating), a short timeline, and the figure caption. In frames narrower than 760 px (phones) the caption sits below the controls, clamped to two lines with a More toggle. `caption=0` removes it.
 - Touch: drag to pan, pinch to zoom, tap a cell to see its labels and trace it.
+- The header wordmark follows the bloom-preview site (orange `b`, `#ff6e00`). It uses Figtree ExtraBold (SIL Open Font License 1.1), embedded as a 1.9 KB subset of the glyphs b, l, o, m, so the page still makes no network requests.
 - The legend panel is closed by default (**Legend** button or `panel=1`). It holds the colour mode (Taxonomy: AIT33 class or subclass, or context), label filtering and highlighting, and the selected cell. Click a cell to trace its five positions.
 
 ### Embedding
