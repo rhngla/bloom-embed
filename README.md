@@ -49,12 +49,42 @@ The builder reuses `src/template.html` for the light layout, categorical palette
 
 Validated in-browser: all 31,500 endpoint positions and raw/log endpoint counts match the embedded data; all four color modes, slider endpoints, playback/pause, annotation search/filtering, cell trajectories, and zoom/reset work. Desktop and mobile layouts were inspected with no console errors. The original context-length visualization is retained as `figure2e.html`.
 
+## ctx.html — context length with the new UMAP settings
+
+`ctx.html` is a self-contained page (1.5 MB, no network requests) built from `ctx_umap.parquet`. `figure2e.html` is unchanged.
+
+- Data: one UMAP fitted jointly on the five context embeddings (500, 1,000, 2,000, 4,000, 8,000) of the same 15,750 cells, with the figure settings n_neighbors=10, min_dist=0.6, spread=1.0, euclidean, seed 0 (bloom-figures `scripts/prepare/28_figure2_context.py` → `data/formatted/figure2_context_umap_coords.csv`).
+- `ctx_umap.parquet` (78,750 rows, one per cell × context): `cell_id`, `row_in_dataset`, `ctxlen`, `umap_1`, `umap_2`, `color`, `AIT33_class`, `AIT33_subclass`, `class_color`, `subclass_color`. Colours come from the AIT33 taxonomy table used in bloom-umaps. As in bloom-umaps, each cell takes the colour of its own `AIT33_class`, and `color` equals `class_color`. 128 cells have an annotated class that differs from their subclass's usual parent class. Input hashes are in `ctx_umap.prov.json`.
+- Autoplay runs once from 500 to 8,000 and stops (6 s per doubling at 1×). Pressing play at 8,000 restarts from 500. The arrow keys step between measured contexts.
+- Colour by class, subclass or context. Click a legend label to spotlight its cells. Click a cell to trace its five positions.
+
+### Embedding
+
+Inside an iframe, or with `?embed=1`, the page hides its header and fills the frame. When the frame is narrower than 760 px, the legend becomes a drawer. The standalone page's **Embed** button shows this snippet:
+
+```html
+<iframe src="https://rhngla.github.io/bloom-embed/ctx.html?embed=1" title="Bloom: cell embeddings across context length"
+        width="100%" height="640" style="border:0;border-radius:8px" loading="lazy"></iframe>
+```
+
+URL parameters: `color=class|subclass|ctxlen`, `ctx=500|1000|2000|4000|8000` (starting frame), `autoplay=1`, `panel=0|1`, `embed=0|1`.
+
+### Rebuild
+
+The prep step runs on the analysis host, where its inputs are:
+
+```sh
+/opt/dlami/nvme/envs/bloom-figures/bin/python prep/prepare_ctx.py   # -> ctx_umap.parquet + ctx_umap.prov.json
+.venv/bin/python build_ctx.py                                       # -> ctx.html
+```
+
 ## GitHub Pages
 
-The `.github/workflows/pages.yml` workflow publishes the two self-contained HTML pages on every push to `main`. It uploads only the generated pages and a small landing page, not the parquet inputs or build environment.
+The `.github/workflows/pages.yml` workflow publishes the three self-contained HTML pages on every push to `main`. It uploads only the generated pages and a small landing page, not the parquet inputs or build environment.
 
 - Landing page: https://rhngla.github.io/bloom-embed/
 - Figure 2e: https://rhngla.github.io/bloom-embed/figure2e.html
 - Figure 4h: https://rhngla.github.io/bloom-embed/figure4h.html
+- Context length (new UMAP settings): https://rhngla.github.io/bloom-embed/ctx.html
 
 After editing the shared template, run both builders and commit their generated HTML outputs. The landing page source is `src/landing.html`.

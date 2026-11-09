@@ -1,0 +1,44 @@
+{
+  "output": "ctx_umap.parquet",
+  "output_sha256": "f9a688c60c11f587658f4664b6547cd7405a704573a92f8abe70026c1cf6543e",
+  "n_rows": 78750,
+  "columns": [
+    "cell_id",
+    "row_in_dataset",
+    "ctxlen",
+    "umap_1",
+    "umap_2",
+    "color",
+    "AIT33_class",
+    "AIT33_subclass",
+    "class_color",
+    "subclass_color"
+  ],
+  "n_cells": 15750,
+  "contexts": [
+    500,
+    1000,
+    2000,
+    4000,
+    8000
+  ],
+  "n_classes": 41,
+  "n_subclasses": 315,
+  "n_cells_class_not_subclass_parent": 128,
+  "umap": "single fit on the stack of all five contexts; umap-learn n_neighbors=10, min_dist=0.6, spread=1.0, euclidean, random_state=0 (bloom-figures scripts/prepare/28_figure2_context.py)",
+  "color": "color == class_color (cell's own AIT33_class); colours from ait33_subclass_taxonomy.csv",
+  "sources": [
+    {
+      "source": "/home/ubuntu/code/bloom-figures/data/formatted/figure2_context_umap_coords.csv",
+      "sha256": "48e512206b7a8bc05e54983240e417ac47e0e3a98e17061e91662f42cefcd2f5"
+    },
+    {
+      "source": "/home/ubuntu/code/bloom-umaps/data/ait33_subclass_taxonomy.csv",
+      "sha256": "a8a2f3ff77ebdb9283be6f03cdab67945740401da6912bfeeabc67735a6e8f55"
+    },
+    {
+      "source": "/mnt/bloom-output/datasets/hyacinth-v1/eval_balanced_50/allen_multiome/metadata.h5ad",
+      "size_bytes": 9077000
+    }
+  ]
+}
