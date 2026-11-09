@@ -56,7 +56,9 @@ Validated in-browser: all 31,500 endpoint positions and raw/log endpoint counts 
 - Data: one UMAP fitted jointly on the five context embeddings (500, 1,000, 2,000, 4,000, 8,000) of the same 15,750 cells, with the figure settings n_neighbors=10, min_dist=0.6, spread=1.0, euclidean, seed 0 (bloom-figures `scripts/prepare/28_figure2_context.py` → `data/formatted/figure2_context_umap_coords.csv`).
 - `ctx_umap.parquet` (78,750 rows, one per cell × context): `cell_id`, `row_in_dataset`, `ctxlen`, `umap_1`, `umap_2`, `color`, `AIT33_class`, `AIT33_subclass`, `class_color`, `subclass_color`. Colours come from the AIT33 taxonomy table used in bloom-umaps. As in bloom-umaps, each cell takes the colour of its own `AIT33_class`, and `color` equals `class_color`. 128 cells have an annotated class that differs from their subclass's usual parent class. Input hashes are in `ctx_umap.prov.json`.
 - Autoplay runs once from 500 to 8,000 and stops (6 s per doubling at 1×; 1× or 2×). Pressing play at 8,000 restarts from 500. The arrow keys step between measured contexts.
-- The legend panel is closed by default (**Legend** button or `panel=1`). It holds the colour mode (class, subclass or context), label filtering, the selected cell, and the figure caption. Click a cell to trace its five positions.
+- The bottom bar shows the context readout (a measured value, or `500 → 1,000` while interpolating), a short timeline, and the figure caption. In frames narrower than 760 px (phones) the caption sits below the controls, clamped to two lines with a More toggle. `caption=0` removes it.
+- Touch: drag to pan, pinch to zoom, tap a cell to see its labels and trace it.
+- The legend panel is closed by default (**Legend** button or `panel=1`). It holds the colour mode (Taxonomy: AIT33 class or subclass, or context), label filtering and highlighting, and the selected cell. Click a cell to trace its five positions.
 
 ### Embedding
 
@@ -67,7 +69,7 @@ Inside an iframe, or with `?embed=1`, the page hides its header, fills the frame
         width="100%" height="640" style="border:0;border-radius:8px" loading="lazy"></iframe>
 ```
 
-URL parameters: `color=class|subclass|ctxlen`, `ctx=500|1000|2000|4000|8000` (starting frame), `autoplay=1`, `panel=0|1`, `embed=0|1`.
+URL parameters: `color=class|subclass|ctxlen`, `ctx=500|1000|2000|4000|8000` (starting frame), `autoplay=1`, `panel=1` (open the legend), `caption=0` (omit the description text, e.g. when the host page supplies its own caption), `embed=0|1`.
 
 ### Rebuild
 
