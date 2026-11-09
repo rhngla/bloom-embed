@@ -54,7 +54,8 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
 .ramp{height:8px;border-radius:4px;margin:6px 0 4px}.ramp-l{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
 .note{color:var(--muted);font-size:11px;margin:8px 0 0}
 .card{border-top:1px solid var(--line);margin-top:10px;padding-top:10px;font-size:11px;min-height:64px}.card .id{font:500 11px ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.card p{margin:4px 0;color:var(--muted)}.card .ln{display:flex;align-items:center;color:var(--text)}.card button{font-size:10.5px;color:var(--muted);text-decoration:underline;text-underline-offset:2px;margin-top:4px}
-.fine{color:var(--faint);font-size:10px;margin-top:8px;line-height:1.45}
+.caption{font-size:11px;line-height:1.5;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.caption b{color:var(--text);font-weight:600}.caption i{font-family:"Times New Roman",Times,serif;font-size:12.5px}.caption .fine{display:block;color:var(--faint);font-size:10px;margin-top:6px;line-height:1.45}
+[hidden]{display:none!important}
 /* compact (narrow container): panel becomes a drawer */
 .app.compact{grid-template-columns:minmax(0,1fr)}
 .app.compact .panel{position:absolute;right:8px;top:44px;bottom:72px;width:min(290px,calc(100% - 16px));z-index:10;border:1px solid var(--line2);border-radius:10px;box-shadow:0 12px 32px rgba(24,24,27,.14);background:#fff}
@@ -62,18 +63,18 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
 .app.compact .playback{gap:10px;padding:10px 12px 12px}.app.compact .ctxval{width:78px}.app.compact .ctxval span{white-space:nowrap;font-size:9.5px}.app.compact .ctxval b{font-size:17px}
 .app.tiny .speed,.app.tiny .axis{display:none}
 </style></head><body>
-<header class="site"><div class="brand"><b>Bloom</b><span>Cell embeddings across context length · joint UMAP</span></div><div class="meta"><span><strong class="num" id="m-cells"></strong> cells</span><span><strong id="m-sub"></strong> subclasses</span><span><strong id="m-ctx"></strong> contexts</span><button class="btn" id="embed-btn" aria-expanded="false">&lt;/&gt; Embed</button></div>
-<div class="embed-pop" id="embed-pop" hidden><p>Paste this into any page to embed the interactive figure. Optional URL parameters: <code>color=class|subclass|ctxlen</code>, <code>ctx=500…8000</code>, <code>autoplay=1</code>, <code>panel=0</code>.</p><textarea id="embed-code" readonly spellcheck="false"></textarea><div class="row"><button class="btn" id="embed-copy">Copy</button></div></div></header>
+<header class="site"><div class="brand"><b>Bloom</b><span>Learning representations that are consistent across context sizes.</span></div><div class="meta"><span><strong class="num" id="m-cells"></strong> cells</span><span><strong id="m-sub"></strong> subclasses</span><span><strong id="m-ctx"></strong> contexts</span><button class="btn" id="embed-btn" aria-expanded="false">&lt;/&gt; Embed</button></div>
+<div class="embed-pop" id="embed-pop" hidden><p>Paste this into any page to embed the interactive figure. Optional URL parameters: <code>color=class|subclass|ctxlen</code>, <code>ctx=500…8000</code>, <code>autoplay=1</code>, <code>panel=1</code> (legend open).</p><textarea id="embed-code" readonly spellcheck="false"></textarea><div class="row"><button class="btn" id="embed-copy">Copy</button></div></div></header>
 <div class="app" id="app">
 <section class="stage"><div class="plot" id="plot"><canvas id="canvas" role="img" aria-label="Interactive UMAP of cells across context lengths. Drag to pan, scroll to zoom, click a cell to trace it."></canvas>
 <div class="overlay frame-label" id="frame-label"></div>
-<div class="tools"><button class="tool" id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button><button class="tool" id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button><button class="tool" id="reset" aria-label="Reset view" title="Reset view">⟲</button><button class="tool txt" id="panel-btn" aria-pressed="true" title="Show or hide the legend">Legend</button><a class="tool txt" id="open-full" target="_blank" rel="noopener" title="Open full page" hidden>↗</a></div>
-<div class="overlay axis">UMAP 1 → · UMAP 2 ↑</div><div class="tooltip" id="tooltip"></div></div>
-<div class="playback"><button class="play" id="play" aria-label="Play" aria-pressed="false"></button><div class="ctxval"><b class="num" id="ctx">500</b><span>context length</span></div><div class="timeline"><input id="slider" type="range" min="0" step="0.001" value="0" aria-label="Context length"><div class="ticks" id="ticks"></div></div><div class="speed" id="speed" role="group" aria-label="Playback speed"><button data-s="0.5" aria-pressed="false">0.5×</button><button data-s="1" aria-pressed="true">1×</button><button data-s="2" aria-pressed="false">2×</button></div></div></section>
+<div class="tools"><button class="tool" id="zoom-in" aria-label="Zoom in" title="Zoom in">+</button><button class="tool" id="zoom-out" aria-label="Zoom out" title="Zoom out">−</button><button class="tool" id="reset" aria-label="Reset view" title="Reset view">⟲</button><button class="tool txt" id="panel-btn" aria-pressed="true" title="Show or hide the legend">Legend</button><a class="tool txt" id="open-full" target="_blank" rel="noopener" title="Open the full page in a new tab" hidden>Full page ↗</a></div>
+<div class="tooltip" id="tooltip"></div></div>
+<div class="playback"><button class="play" id="play" aria-label="Play" aria-pressed="false"></button><div class="ctxval"><b class="num" id="ctx">500</b><span>context length</span></div><div class="timeline"><input id="slider" type="range" min="0" step="0.001" value="0" aria-label="Context length"><div class="ticks" id="ticks"></div></div><div class="speed" id="speed" role="group" aria-label="Playback speed"><button data-s="1" aria-pressed="true">1×</button><button data-s="2" aria-pressed="false">2×</button></div></div></section>
 <aside class="panel" id="panel"><div class="seg" role="group" aria-label="Color by"><button data-mode="class" aria-pressed="true">Class</button><button data-mode="subclass" aria-pressed="false">Subclass</button><button data-mode="ctxlen" aria-pressed="false">Context</button></div>
 <div class="lab"><span id="legend-label">AIT33 class</span><button id="clear">Show all</button></div><input id="search" placeholder="Filter labels…" aria-label="Filter labels" autocomplete="off"><div id="legend"></div>
 <div class="card" id="card"></div>
-<div class="fine">One UMAP fitted jointly on all five context embeddings (n_neighbors 10, min_dist 0.6). Cells matched by cell_id. Positions between measured contexts are eased interpolations, not model outputs.</div></aside>
+<div class="caption"><b>Bloom learns consistent representations across context sizes.</b> A joint UMAP is fit on cell representations obtained with different input contexts. The input context for each cell consists of its <i>n</i> most expressed genes, with <i>n</i>&nbsp;∈&nbsp;{500,&nbsp;1,000,&nbsp;2,000,&nbsp;4,000,&nbsp;8,000}. The representation is remarkably robust over this 16× range of context sizes.<span class="fine">Axes are the two UMAP dimensions. Each cell is matched across contexts by its ID; positions between measured contexts are interpolated for display.</span></div></aside>
 </div>
 <script id="dataset" type="application/json">__DATA__</script><script>
 'use strict';
@@ -153,7 +154,7 @@ if(EMBED){const o=$('#open-full');o.hidden=false;o.href=base}
 const m0=Q.get('color');setMode(['class','subclass','ctxlen'].includes(m0)?m0:'class');
 const c0=+Q.get('ctx');const j0=D.frames.indexOf(c0);setTime(j0>=0?j0:0);
 {const ro=new ResizeObserver(resize);ro.observe(app);ro.observe(plot)}resize();
-const p0=Q.get('panel');setPanel(p0!==null?p0!=='0':!app.classList.contains('compact'));
+const p0=Q.get('panel');setPanel(p0==='1');
 card();setPlaying(Q.get('autoplay')==='1');
 function frame(now){if(playing&&!document.hidden){if(last){const next=t+Math.min(now-last,100)/SEG_MS*speed;if(next>=LAST){setTime(LAST);setPlaying(false)}else setTime(next)}last=now}if(dirty)draw();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);

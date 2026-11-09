@@ -55,12 +55,12 @@ Validated in-browser: all 31,500 endpoint positions and raw/log endpoint counts 
 
 - Data: one UMAP fitted jointly on the five context embeddings (500, 1,000, 2,000, 4,000, 8,000) of the same 15,750 cells, with the figure settings n_neighbors=10, min_dist=0.6, spread=1.0, euclidean, seed 0 (bloom-figures `scripts/prepare/28_figure2_context.py` → `data/formatted/figure2_context_umap_coords.csv`).
 - `ctx_umap.parquet` (78,750 rows, one per cell × context): `cell_id`, `row_in_dataset`, `ctxlen`, `umap_1`, `umap_2`, `color`, `AIT33_class`, `AIT33_subclass`, `class_color`, `subclass_color`. Colours come from the AIT33 taxonomy table used in bloom-umaps. As in bloom-umaps, each cell takes the colour of its own `AIT33_class`, and `color` equals `class_color`. 128 cells have an annotated class that differs from their subclass's usual parent class. Input hashes are in `ctx_umap.prov.json`.
-- Autoplay runs once from 500 to 8,000 and stops (6 s per doubling at 1×). Pressing play at 8,000 restarts from 500. The arrow keys step between measured contexts.
-- Colour by class, subclass or context. Click a legend label to spotlight its cells. Click a cell to trace its five positions.
+- Autoplay runs once from 500 to 8,000 and stops (6 s per doubling at 1×; 1× or 2×). Pressing play at 8,000 restarts from 500. The arrow keys step between measured contexts.
+- The legend panel is closed by default (**Legend** button or `panel=1`). It holds the colour mode (class, subclass or context), label filtering, the selected cell, and the figure caption. Click a cell to trace its five positions.
 
 ### Embedding
 
-Inside an iframe, or with `?embed=1`, the page hides its header and fills the frame. When the frame is narrower than 760 px, the legend becomes a drawer. The standalone page's **Embed** button shows this snippet:
+Inside an iframe, or with `?embed=1`, the page hides its header, fills the frame, and shows a **Full page ↗** link. When the frame is narrower than 760 px, the legend opens as a drawer over the plot. The standalone page's **Embed** button shows this snippet:
 
 ```html
 <iframe src="https://rhngla.github.io/bloom-embed/ctx.html?embed=1" title="Bloom: cell embeddings across context length"
