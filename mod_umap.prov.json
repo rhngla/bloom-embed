@@ -1,0 +1,41 @@
+{
+  "output": "mod_umap.parquet",
+  "output_sha256": "b3e3416130fc04b18f8d923ac69a4b6de66b0c39705482d5f7ddd1188d1e6ad9",
+  "n_rows": 31500,
+  "columns": [
+    "cell_id",
+    "row_in_dataset",
+    "modality",
+    "role",
+    "umap_1",
+    "umap_2",
+    "AIT33_class",
+    "AIT33_subclass",
+    "class_color",
+    "subclass_color"
+  ],
+  "n_cells": 15750,
+  "modalities": [
+    "RNA",
+    "ATAC"
+  ],
+  "n_classes": 41,
+  "n_subclasses": 315,
+  "n_cells_class_not_subclass_parent": 128,
+  "umap": "variant=project: umap-learn fit on Bloom's RNA embedding alone (top4096, genes only); Bloom's ATAC embedding of the same cells (resamp_atac_8192_d16, peaks only) placed with umap.transform(). n_neighbors=10, min_dist=0.6, spread=1.0, euclidean, random_state=0 (bloom-figures scripts/prepare/41_build_modality_umaps.py). Figure 4i.",
+  "color": "class_color = cell's own AIT33_class; colours from ait33_subclass_taxonomy.csv",
+  "sources": [
+    {
+      "source": "/home/ubuntu/code/bloom-figures/data/formatted/figure4_modality_umap_coords.csv",
+      "sha256": "8907d74a7eaff999eb50afa1cddc262d20826e4ed678f72d6136c5fb97d45bd8"
+    },
+    {
+      "source": "/home/ubuntu/code/bloom-umaps/data/ait33_subclass_taxonomy.csv",
+      "sha256": "a8a2f3ff77ebdb9283be6f03cdab67945740401da6912bfeeabc67735a6e8f55"
+    },
+    {
+      "source": "/mnt/bloom-output/datasets/hyacinth-v1/eval_balanced_50/allen_multiome/metadata.h5ad",
+      "size_bytes": 9077000
+    }
+  ]
+}
